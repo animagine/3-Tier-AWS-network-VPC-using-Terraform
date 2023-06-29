@@ -1,15 +1,12 @@
 # 3-Tier-AWS-network-VPC-using-Terraform
 Building infrastructure on AWS using IAAC tool (Terraform)
 
-## Terraform Modules
-It doesn't take long before your main terraform file gets complicated with various configurations and becomes hard to debug or maintain. 
+## Setup
 
-This is where breaking up your configuration structure and grouping resources that are used together will come in handy. Modules are containers 
-for grouping similar resources that are used together. A module consists of a collection or group of .tf or .tf.json files kept together in a directory.
+This infrastructure is comprised of a VPC with public and private subnets in two availability zones.
 
-It is good practice to break up terraform file structures into smaller logical component groups.
+An internet gateway will be used to allow communication between instances in the VPC and the internet. For high availability and fault tolerance, 2 availability zones are used. 
 
-For this project, I created 3 logical groups namely
-  - Main.tf
-  - Output.tf
-  - Variables.tf
+The public subnet will be used by the Nat gateway, Bastion Host, and ALB (Application Load Balancer). The private subnet on the other hand will house the webservers and the database for protection against unwanted access from the internet.
+
+For the subnet associations, the Public route table will be associated with the public subnet by routing traffic through the internet gateway. The private subnet will be associated to the main route table.
